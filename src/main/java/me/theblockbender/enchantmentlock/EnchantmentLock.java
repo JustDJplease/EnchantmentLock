@@ -36,8 +36,6 @@ public class EnchantmentLock extends JavaPlugin {
      * Loads all identifiers from the config into this {@link List}. And translates '&' for colour coding.
      */
     private void loadIdentifiers() {
-        for (String id : getConfig().getStringList("Identifiers")) {
-            identifiers.add(ChatColor.translateAlternateColorCodes('&', id));
-        }
+        identifiers.addAll(getConfig().getStringList("Identifiers"));
     }
 }

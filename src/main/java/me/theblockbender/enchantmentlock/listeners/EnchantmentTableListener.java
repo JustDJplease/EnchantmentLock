@@ -9,13 +9,14 @@ import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class EnchantmentTableListener implements Listener {
 
     private EnchantmentLock main;
-//    private List<UUID> cancelDoubleSending = new ArrayList<>();
+    private List<UUID> cancelDoubleSending = new ArrayList<>();
 
     /**
      * Constructor
@@ -43,12 +44,12 @@ public class EnchantmentTableListener implements Listener {
         List<String> lore = meta.getLore();
 
         for (String loreline : lore) {
-            if (!main.identifiers.contains(loreline)) continue;
-//            if (!cancelDoubleSending.contains(uuid)) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("Message")));
-//                cancelDoubleSending.add(uuid);
-//                main.getServer().getScheduler().runTaskLater(main, (Runnable) () -> cancelDoubleSending.remove(uuid), 2L);
-//            }
+            if (!main.identifiers.contains(ChatColor.stripColor(loreline))) continue;
+            if (!cancelDoubleSending.contains(uuid)) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("Message")));
+                cancelDoubleSending.add(uuid);
+                main.getServer().getScheduler().runTaskLater(main, () -> cancelDoubleSending.remove(uuid), 2L);
+            }
             event.setCancelled(true);
         }
     }
