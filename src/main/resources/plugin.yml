@@ -1,0 +1,7 @@
+name: ${project.name}
+version: ${project.version}
+
+main: me.theblockbender.enchantmentlock.EnchantmentLock
+description: Prevents enchantments from being applied to lore-locked items.
+authors: [JustDJplease, TheBlockBender]
+permission-message: You are not allowed to do this!
