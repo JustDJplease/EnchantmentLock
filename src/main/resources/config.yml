@@ -1,0 +1,15 @@
+# If one of the lore lines equals a word in this list (Lore chat color is disregarded), the item is regarded as locked.
+# These words are CaSe-SeNsItIvE!
+Identifiers:
+- "Locked"
+- "Closed"
+- "locked"
+- "closed"
+
+# This message is send to players when they attempt to enchant a locked item.
+# Use '&' as the symbol for color codes.
+Message: "&cThis item is locked, and cannot be enchanted."
+
+# Items can be enchanted by combining them in an anvil.
+# Setting this to 'true' will prevent that.
+BlockMergeEnchants: true
