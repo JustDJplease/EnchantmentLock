@@ -44,13 +44,19 @@ public class EnchantmentTableListener implements Listener {
         List<String> lore = meta.getLore();
 
         for (String loreline : lore) {
-            if (!main.identifiers.contains(ChatColor.stripColor(loreline))) continue;
-            if (!cancelDoubleSending.contains(uuid)) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("Message")));
-                cancelDoubleSending.add(uuid);
-                main.getServer().getScheduler().runTaskLater(main, () -> cancelDoubleSending.remove(uuid), 2L);
+            String line = ChatColor.stripColor(loreline);
+            for(String id : main.identifiers){
+                if(line.contains(id)){
+                    if (!cancelDoubleSending.contains(uuid)) {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("Message")));
+                        cancelDoubleSending.add(uuid);
+                        main.getServer().getScheduler().runTaskLater(main, () -> cancelDoubleSending.remove(uuid), 2L);
+                    }
+                    event.setCancelled(true);
+                    return;
+                }
             }
-            event.setCancelled(true);
+
         }
     }
 }

@@ -1,4 +1,4 @@
-# If one of the lore lines equals a word in this list (Lore chat color is disregarded, don't use it in these words), the item is regarded as locked.
+# If one of the lore lines contains a word in this list (Lore chat color is disregarded, don't use it in these words), the item is regarded as locked.
 # These words are CaSe-SeNsItIvE!
 Identifiers:
 - "Locked"

@@ -68,9 +68,14 @@ public class AnvilListener implements Listener {
         if (!isRepair) {
             List<String> lore = meta.getLore();
             for (String loreline : lore) {
-                if (!main.identifiers.contains(ChatColor.stripColor(loreline))) continue;
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("Message")));
-                event.setCancelled(true);
+                String line = ChatColor.stripColor(loreline);
+                for(String id : main.identifiers){
+                    if(line.contains(id)){
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("Message")));
+                        event.setCancelled(true);
+                        return;
+                    }
+                }
             }
         }
     }
