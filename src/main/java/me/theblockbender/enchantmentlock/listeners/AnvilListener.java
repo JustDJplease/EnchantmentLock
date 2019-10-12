@@ -1,6 +1,7 @@
 package me.theblockbender.enchantmentlock.listeners;
 
 import me.theblockbender.enchantmentlock.EnchantmentLock;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -44,39 +45,53 @@ public class AnvilListener implements Listener {
         if (!(inventory instanceof AnvilInventory)) return;
 
         InventoryView inventoryView = event.getView();
-        int slot = event.getRawSlot();
-        if (slot != inventoryView.convertSlot(slot)) return;
-        if (slot != 2) return;
+        int clickedSlot = event.getRawSlot();
+        if (clickedSlot != inventoryView.convertSlot(clickedSlot)) return;
+        if (clickedSlot != 2) return;
 
         ItemStack item = inventory.getItem(0);
         ItemStack mergedWith = inventory.getItem(1);
         ItemStack result = inventory.getItem(2);
-        boolean isRepair = false;
 
         if (item == null) return;
+        if (mergedWith == null) return;
         if (result == null) return;
-        if (!item.hasItemMeta()) return;
-        ItemMeta meta = item.getItemMeta();
-        if (!meta.hasLore()) return;
 
-        if (mergedWith != null) {
-            if (mergedWith.getType() != Material.ENCHANTED_BOOK) isRepair = true;
-            if (main.getConfig().getBoolean("BlockMergeEnchants") && (item.getEnchantments() != result.getEnchantments()))
-                isRepair = false;
+        //check if the the anvil action is an enchantment and if this is allowed by config settings
+        if (mergedWith.getType() == Material.ENCHANTED_BOOK && !enchantmentBookMergesDisabled())
+            return;
+
+        //check if one of th BOTH merged items is a locked item
+        if (isLockedItem(item) || isLockedItem(mergedWith)) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("Message")));
+            event.setCancelled(true);
         }
+    }
 
-        if (!isRepair) {
-            List<String> lore = meta.getLore();
-            for (String loreline : lore) {
-                String line = ChatColor.stripColor(loreline);
-                for(String id : main.identifiers){
-                    if(line.contains(id)){
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("Message")));
-                        event.setCancelled(true);
-                        return;
-                    }
-                }
+    private boolean enchantmentBookMergesDisabled() {
+        return main.getConfig().getBoolean("BlockMergeEnchants");
+    }
+
+    private boolean isLockedItem(ItemStack item) {
+
+        if (!item.hasItemMeta())
+            return false;
+
+        ItemMeta meta = item.getItemMeta();
+
+        if (!meta.hasLore())
+            return false;
+
+        List<String> lore = meta.getLore();
+
+        for (String loreLine : lore) {
+            String line = ChatColor.stripColor(loreLine);
+
+            for(String id : main.identifiers) {
+                if (line.contains(id))
+                    return true;
             }
         }
+        return true;
     }
 }
