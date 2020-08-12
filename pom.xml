@@ -4,11 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.theblockbender</groupId>
+    <groupId>me.newt</groupId>
     <artifactId>enchantmentlock</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>MC-1.16.1</version>
+    <description>Prevent enchantments on items from being changed by players.</description>
 
     <repositories>
+        <!-- Spigot -->
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
@@ -16,16 +18,17 @@
     </repositories>
 
     <dependencies>
+        <!-- Spigot -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.13.1-R0.1-SNAPSHOT</version>
+            <version>1.16.2-R0.1-SNAPSHOT</version>t
             <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>EnchantmentLock</finalName>
+        <finalName>${project.name} - ${project.version}</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
             <resource>
@@ -33,8 +36,9 @@
                 <filtering>true</filtering>
                 <directory>${basedir}/src/main/resources/</directory>
                 <includes>
-                    <include>plugin.yml</include>
-                    <include>config.yml</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.zip</include>
                 </includes>
             </resource>
         </resources>

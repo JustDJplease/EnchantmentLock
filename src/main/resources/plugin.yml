@@ -1,8 +1,9 @@
-name: EnchantmentLock
-version: 2.0
-api-version: 1.13
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
 
-main: me.theblockbender.enchantmentlock.EnchantmentLock
-description: Prevents enchantments from being applied to lore-locked items.
-authors: [JustDJplease, TheBlockBender]
-permission-message: You are not allowed to do this!
+authors: [Newt]
+main: me.newt.enchantmentlock.EnchantmentLock
+website: https://github.com/JustDJplease/EnchantmentLock
+
+api-version: 1.16
