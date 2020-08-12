@@ -26,14 +26,11 @@ block_enchanting_table: true
 # Prevent players from enchanting locked items with an Anvil.
 block_anvil_enchanting: true
 
-# Prevent players from repairing locked items with an Anvil.
+# Prevent players from repairing & combining locked items with an Anvil.
 block_anvil_repair: true
 
 # Prevent players from disenchanting locked items with a Grindstone.
 block_grindstone: true
-
-# Prevent players from repairing locked items with a Grindstone.
-block_grindstone_repair: true
 
 # Prevent players from upgrading locked items to netherite with a smithing table.
 block_smithing: true

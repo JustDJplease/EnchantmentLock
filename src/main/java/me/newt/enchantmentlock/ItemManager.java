@@ -19,7 +19,7 @@ public class ItemManager {
      * @param enchantmentLock Instance of the main class.
      */
     public ItemManager(EnchantmentLock enchantmentLock) {
-        this.identifiers = enchantmentLock.getConfig().getStringList("Identifiers");
+        this.identifiers = enchantmentLock.getConfig().getStringList("identifiers");
     }
 
     /**

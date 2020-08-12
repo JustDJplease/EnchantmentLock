@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.newt</groupId>
-    <artifactId>enchantmentlock</artifactId>
+    <artifactId>EnchantmentLock</artifactId>
     <version>MC-1.16.1</version>
     <description>Prevent enchantments on items from being changed by players.</description>
 

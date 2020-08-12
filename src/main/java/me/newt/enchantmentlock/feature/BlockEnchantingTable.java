@@ -18,47 +18,49 @@ import java.util.UUID;
  */
 public class BlockEnchantingTable implements Listener {
 
-    private final EnchantmentLock enchantmentLock;
-    private final List<UUID> cancelDoubleMessage;
+	private final EnchantmentLock enchantmentLock;
+	private final List<UUID> cancelDoubleMessage;
 
-    /**
-     * Constructor for the BlockEnchantingTable Listener.
-     * @param enchantmentLock Instance of the main class.
-     */
-    public BlockEnchantingTable(EnchantmentLock enchantmentLock) {
-        this.enchantmentLock = enchantmentLock;
-        this.cancelDoubleMessage = new ArrayList<>();
-    }
+	/**
+	 * Constructor for the BlockEnchantingTable Listener.
+	 * @param enchantmentLock Instance of the main class.
+	 */
+	public BlockEnchantingTable(EnchantmentLock enchantmentLock) {
+		this.enchantmentLock = enchantmentLock;
+		this.cancelDoubleMessage = new ArrayList<>();
+	}
 
-    /**
-     * Enchanting Table event.
-     * @param event The respective event listened to.
-     */
-    @EventHandler
-    public void onEnchantmentTable(PrepareItemEnchantEvent event) {
-        ItemStack item = event.getItem();
-        if (enchantmentLock.itemManager.isLockedItem(item)) {
-            event.setCancelled(true);
-        }
+	/**
+	 * Enchanting Table event.
+	 * @param event The respective event listened to.
+	 */
+	@EventHandler
+	public void onEnchantmentTable(PrepareItemEnchantEvent event) {
+		ItemStack item = event.getItem();
+		if (!enchantmentLock.itemManager.isLockedItem(item)) {
+			return;
+		}
 
-        Player player = event.getEnchanter();
-        UUID uuid = player.getUniqueId();
+		event.setCancelled(true);
 
-        // For some reason, this event is called multiple times for the same enchantment.
-        // This prevents the chat of players from being spammed in that case.
-        if (!cancelDoubleMessage.contains(uuid)) {
-            player.sendMessage(enchantmentLock.messageManager.cannot_enchant);
-            cancelDoubleMessage.add(uuid);
-            removeInTwoTicks(uuid);
-        }
-    }
+		Player player = event.getEnchanter();
+		UUID uuid = player.getUniqueId();
 
-    /**
-     * Schedules the removal from a UUID from the cancelDoubleMessage list.
-     * @param uuid The UUID to remove.
-     */
-    private void removeInTwoTicks(UUID uuid) {
-        BukkitScheduler scheduler = enchantmentLock.getServer().getScheduler();
-        scheduler.runTaskLater(enchantmentLock, () -> cancelDoubleMessage.remove(uuid), 2L);
-    }
+		// This event is called multiple times for the same enchantment.
+		// This prevents the chat of players from being spammed in that case.
+		if (!cancelDoubleMessage.contains(uuid)) {
+			player.sendMessage(enchantmentLock.messageManager.cannot_enchant);
+			cancelDoubleMessage.add(uuid);
+			removeInTwoTicks(uuid);
+		}
+	}
+
+	/**
+	 * Schedules the removal from a UUID from the cancelDoubleMessage list.
+	 * @param uuid The UUID to remove.
+	 */
+	private void removeInTwoTicks(UUID uuid) {
+		BukkitScheduler scheduler = enchantmentLock.getServer().getScheduler();
+		scheduler.runTaskLater(enchantmentLock, () -> cancelDoubleMessage.remove(uuid), 2L);
+	}
 }

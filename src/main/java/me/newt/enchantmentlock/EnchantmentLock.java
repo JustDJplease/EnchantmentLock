@@ -21,7 +21,6 @@ public class EnchantmentLock extends JavaPlugin {
     public boolean block_anvil_enchanting;
     public boolean block_anvil_repair;
     public boolean block_grindstone;
-    public boolean block_grindstone_repair;
     public boolean block_smithing;
     public ItemManager itemManager;
     public MessageManager messageManager;
@@ -43,7 +42,6 @@ public class EnchantmentLock extends JavaPlugin {
         block_anvil_enchanting = configuration.getBoolean("block_anvil_enchanting");
         block_anvil_repair = configuration.getBoolean("block_anvil_repair");
         block_grindstone = configuration.getBoolean("block_grindstone");
-        block_grindstone_repair = configuration.getBoolean("block_grindstone_repair");
         block_smithing = configuration.getBoolean("block_smithing");
 
         itemManager = new ItemManager(this);
@@ -62,8 +60,8 @@ public class EnchantmentLock extends JavaPlugin {
         // Prevent players from enchanting and/or repairing locked items with an Anvil.
         if (block_anvil_enchanting || block_anvil_repair) pluginManager.registerEvents(new BlockAnvil(this), this);
 
-        // Prevent players from disenchanting and/or repairing locked items with a Grindstone.
-        if (block_grindstone || block_grindstone_repair) pluginManager.registerEvents(new BlockGrindstone(this), this);
+        // Prevent players from disenchanting locked items with a Grindstone.
+        if (block_grindstone) pluginManager.registerEvents(new BlockGrindstone(this), this);
 
         // Prevent players from upgrading locked items to netherite with a smithing table.
         if (block_smithing) pluginManager.registerEvents(new BlockSmithing(this), this);
