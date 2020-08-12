@@ -4,6 +4,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 # Items with a lore containing one of these identifiers cannot be enchanted.
+# The words in this list are case-sensitive.
 identifiers:
   - "Enchanting disabled"
   - "enchanting disabled"
@@ -12,14 +13,14 @@ identifiers:
   - "Closed"
   - "closed"
 
-# Message send to players when they try to enchant a locked item.
+# Message send to players when they try to modify a locked item.
 # Supports colour codes ("&").
 cannot_enchant: "&cThis item cannot be enchanted."
 cannot_disenchant: "&cThe enchantments on this item cannot be removed."
 cannot_repair: "&cThis item cannot be repaired."
 cannot_smith: "&cThis item cannot be upgraded to netherite."
 
-# Toggle parts of the plugin. By default, all ways to (dis)enchant an item are enabled.
+# Toggle parts of the plugin. By default, all ways to (dis)enchant an item are prevented.
 # Prevent players from enchanting locked items with an Enchanting Table.
 block_enchanting_table: true
 
