@@ -22,6 +22,7 @@ public class EnchantmentLock extends JavaPlugin {
     public boolean block_anvil_repair;
     public boolean block_grindstone;
     public boolean block_smithing;
+    public boolean block_name_change;
     public ItemManager itemManager;
     public MessageManager messageManager;
 
@@ -40,6 +41,7 @@ public class EnchantmentLock extends JavaPlugin {
 
         block_enchanting_table = configuration.getBoolean("block_enchanting_table");
         block_anvil_enchanting = configuration.getBoolean("block_anvil_enchanting");
+        block_name_change = configuration.getBoolean("block_name_change");
         block_anvil_repair = configuration.getBoolean("block_anvil_repair");
         block_grindstone = configuration.getBoolean("block_grindstone");
         block_smithing = configuration.getBoolean("block_smithing");
