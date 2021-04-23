@@ -11,9 +11,11 @@ import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * Updated to support minecraft 1.16.1.
+ *
  * @author Newt
  */
 public class BlockAnvil implements Listener {
@@ -22,6 +24,7 @@ public class BlockAnvil implements Listener {
 
     /**
      * Constructor for the BlockEnchantingTable Listener.
+     *
      * @param enchantmentLock Instance of the main class.
      */
     public BlockAnvil(EnchantmentLock enchantmentLock) {
@@ -29,7 +32,46 @@ public class BlockAnvil implements Listener {
     }
 
     /**
+     * Returns whether or not the item has been renamed
+     * @param item ItemStack original item put in anvil
+     * @param result ItemStack result from using the anvil
+     * @return Whether or not the item has been renamed
+     */
+    private boolean isChangeInName(ItemStack item, ItemStack result) {
+        String itemName;
+        String resultName;
+
+        if (item.hasItemMeta()) {
+            ItemMeta itemMeta = item.getItemMeta();
+            if (itemMeta.hasDisplayName()) {
+                itemName = item.getItemMeta().getDisplayName();
+            } else {
+                itemName = item.getType().name();
+            }
+        } else {
+            itemName = item.getType().name();
+        }
+
+        if (result.hasItemMeta()) {
+            ItemMeta resultMeta = result.getItemMeta();
+            if (resultMeta.hasDisplayName()) {
+                resultName = item.getItemMeta().getDisplayName();
+            } else {
+                resultName = item.getType().name();
+            }
+        } else {
+            resultName = item.getType().name();
+        }
+
+        if (!itemName.equals(resultName)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Anvil event.
+     *
      * @param event The respective event listened to.
      */
     @EventHandler
@@ -53,6 +95,7 @@ public class BlockAnvil implements Listener {
         boolean involvesLockedItem = false;
         boolean isRepair = false;
         boolean isChangeInEnchantments = false;
+        boolean isChangeInName = false;
 
         if (item == null) return;
         if (result == null) return;
@@ -68,6 +111,8 @@ public class BlockAnvil implements Listener {
                 isRepair = false;
                 isChangeInEnchantments = true;
             }
+
+            isChangeInName = isChangeInName(item, result);
         }
 
         if (!involvesLockedItem) return;
@@ -78,9 +123,17 @@ public class BlockAnvil implements Listener {
             return;
         }
 
+        if (enchantmentLock.block_name_change && isChangeInName) {
+            event.setCancelled(true);
+            player.sendMessage(enchantmentLock.messageManager.cannot_rename);
+            return;
+        }
+
         if (enchantmentLock.block_anvil_repair && isRepair) {
             event.setCancelled(true);
             player.sendMessage(enchantmentLock.messageManager.cannot_repair);
         }
+
+
     }
 }

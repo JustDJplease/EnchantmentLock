@@ -2,7 +2,9 @@ name: ${project.name}
 version: ${project.version}
 description: ${project.description}
 
-authors: [Newt]
+authors:
+  - Newt
+  - William278
 main: me.newt.enchantmentlock.EnchantmentLock
 website: https://github.com/JustDJplease/EnchantmentLock
 

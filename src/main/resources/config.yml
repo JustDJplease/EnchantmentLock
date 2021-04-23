@@ -19,6 +19,7 @@ cannot_enchant: "&cThis item cannot be enchanted."
 cannot_disenchant: "&cThe enchantments on this item cannot be removed."
 cannot_repair: "&cThis item cannot be repaired."
 cannot_smith: "&cThis item cannot be upgraded to netherite."
+cannot_rename: "&cThis item cannot be renamed."
 
 # Toggle parts of the plugin. By default, all ways to (dis)enchant an item are prevented.
 # Prevent players from enchanting locked items with an Enchanting Table.
@@ -29,6 +30,9 @@ block_anvil_enchanting: true
 
 # Prevent players from repairing & combining locked items with an Anvil.
 block_anvil_repair: true
+
+# Prevent players from changing the name of locked items with an Anvil.
+block_name_change: true
 
 # Prevent players from disenchanting locked items with a Grindstone.
 block_grindstone: true
