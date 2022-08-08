@@ -25,6 +25,7 @@ public class EnchantmentLock extends JavaPlugin {
     public boolean block_name_change;
     public ItemManager itemManager;
     public MessageManager messageManager;
+    private Logger logger;
 
     /**
      * Enabling the plugin.
@@ -33,18 +34,24 @@ public class EnchantmentLock extends JavaPlugin {
         saveDefaultConfig();
 
         FileConfiguration configuration = getConfig();
+        logger = getLogger();
         if (configuration.getInt("config_version") != 1) {
-            Logger logger = getLogger();
             logger.severe("Invalid config.yml detected! (Is it outdated?)");
             logger.severe("Please delete the current file and restart the server.");
         }
 
         block_enchanting_table = configuration.getBoolean("block_enchanting_table");
+        if(block_enchanting_table) {logger.info("block_enchanting_table: true");};
         block_anvil_enchanting = configuration.getBoolean("block_anvil_enchanting");
+        if(block_anvil_enchanting) {logger.info("block_anvil_enchanting: true");};
         block_name_change = configuration.getBoolean("block_name_change");
+        if(block_name_change) {logger.info("block_name_change: true");};
         block_anvil_repair = configuration.getBoolean("block_anvil_repair");
+        if(block_anvil_repair) {logger.info("block_anvil_repair: true");};
         block_grindstone = configuration.getBoolean("block_grindstone");
+        if(block_grindstone) {logger.info("block_grindstone: true");};
         block_smithing = configuration.getBoolean("block_smithing");
+        if(block_smithing) {logger.info("block_smithing: true");};
 
         itemManager = new ItemManager(this);
         messageManager = new MessageManager(this);

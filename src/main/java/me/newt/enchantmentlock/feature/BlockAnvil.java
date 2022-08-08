@@ -1,6 +1,7 @@
 package me.newt.enchantmentlock.feature;
 
 import me.newt.enchantmentlock.EnchantmentLock;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -12,6 +13,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.ChatColor;
+
+import java.util.logging.Logger;
 
 /**
  * Updated to support minecraft 1.16.1.
@@ -21,6 +25,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class BlockAnvil implements Listener {
 
     private final EnchantmentLock enchantmentLock;
+    private Logger logger;
 
     /**
      * Constructor for the BlockEnchantingTable Listener.
@@ -28,6 +33,7 @@ public class BlockAnvil implements Listener {
      * @param enchantmentLock Instance of the main class.
      */
     public BlockAnvil(EnchantmentLock enchantmentLock) {
+        logger = Bukkit.getLogger();
         this.enchantmentLock = enchantmentLock;
     }
 
@@ -44,25 +50,28 @@ public class BlockAnvil implements Listener {
         if (item.hasItemMeta()) {
             ItemMeta itemMeta = item.getItemMeta();
             if (itemMeta.hasDisplayName()) {
-                itemName = item.getItemMeta().getDisplayName();
+                itemName = ChatColor.stripColor(item.getItemMeta().getDisplayName());
             } else {
-                itemName = item.getType().name();
+                itemName = ChatColor.stripColor(item.getType().name());
             }
         } else {
-            itemName = item.getType().name();
+            itemName = ChatColor.stripColor(item.getType().name());
         }
 
         if (result.hasItemMeta()) {
             ItemMeta resultMeta = result.getItemMeta();
             if (resultMeta.hasDisplayName()) {
-                resultName = item.getItemMeta().getDisplayName();
+                resultName = ChatColor.stripColor(result.getItemMeta().getDisplayName());
             } else {
-                resultName = item.getType().name();
+                resultName = ChatColor.stripColor(result.getType().name());
             }
         } else {
-            resultName = item.getType().name();
+            resultName = ChatColor.stripColor(result.getType().name());
         }
 
+//        logger.info("itemName   = " + itemName);
+//        logger.info("resultName = " + resultName);
+        
         if (!itemName.equals(resultName)) {
             return true;
         }
@@ -82,7 +91,7 @@ public class BlockAnvil implements Listener {
         Player player = (Player) human;
         Inventory inventory = event.getClickedInventory();
         if (!(inventory instanceof AnvilInventory)) return;
-
+        
         InventoryView inventoryView = event.getView();
         int slot = event.getRawSlot();
         if (slot != inventoryView.convertSlot(slot)) return;
@@ -102,6 +111,8 @@ public class BlockAnvil implements Listener {
         if (enchantmentLock.itemManager.isLockedItem(item)) involvesLockedItem = true;
         if (enchantmentLock.itemManager.isLockedItem(result)) involvesLockedItem = true;
 
+        isChangeInName = isChangeInName(item, result);
+
         if (mergedWith != null) {
             if (enchantmentLock.itemManager.isLockedItem(mergedWith)) involvesLockedItem = true;
             if (mergedWith.getType() != Material.ENCHANTED_BOOK) {
@@ -111,10 +122,8 @@ public class BlockAnvil implements Listener {
                 isRepair = false;
                 isChangeInEnchantments = true;
             }
-
-            isChangeInName = isChangeInName(item, result);
         }
-
+        
         if (!involvesLockedItem) return;
 
         if (enchantmentLock.block_anvil_enchanting && isChangeInEnchantments) {
