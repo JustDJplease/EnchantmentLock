@@ -33,8 +33,18 @@ public class ItemManager {
 
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return false;
-        if (!meta.hasLore()) return false;
 
+        // no Name or Lore
+        if ( (!meta.hasDisplayName()) && (!meta.hasLore()) ) return false;
+        
+        if (meta.hasDisplayName()) { // has name
+            String name = ChatColor.stripColor(meta.getDisplayName());
+            for (String identifier : identifiers) {
+                if (name.contains(identifier)) return true;
+                }
+            }
+            
+        // passed name check, now check lore
         List<String> lore = meta.getLore();
         if (lore == null) return false;
 

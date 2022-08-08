@@ -6,7 +6,7 @@
 
     <groupId>me.newt</groupId>
     <artifactId>EnchantmentLock</artifactId>
-    <version>MC-1.16.5</version>
+    <version>1.0</version>
     <description>Prevent enchantments on items from being changed by players.</description>
 
     <repositories>
@@ -22,13 +22,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <version>1.19.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>${project.name} - ${project.version}</finalName>
+        <finalName>${project.name}_${project.version}</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
             <resource>
